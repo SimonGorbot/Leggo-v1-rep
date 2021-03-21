@@ -1,10 +1,13 @@
 float prevAngle = 0;
 float Angle;
-float difAngle = 0;
-int steps = 1;
+int steps;
+int stepsDir; 
+int stepsFinal;
 const float motorAcc = 1.8;
 int Delay = 1;
 
+#define difAngle (Angle - prevAngle)
+#define difAngleAlt (prevAngle - Angle)
 #define STEP_PIN 4
 #define DIR_PIN 2
 
@@ -18,17 +21,34 @@ void setup()
   digitalWrite(STEP_PIN, LOW);
 }
 
+int calculate_steps(float x, float y)
+{
+  float steps1 = x / motorAcc;
+  float steps2 = y / motorAcc;
+  steps = min(abs(steps1), abs(steps2));
+ 
+  if (steps == abs(steps1)){
+    stepsDir = -1+2*(steps1>0);
+  }
+  else if (steps == abs(steps2)){
+    stepsDir = -1+2*(steps2>0);
+  }
+
+  stepsFinal = steps * stepsDir;
+  return stepsFinal;
+}
+
 void loop()
 {
   Angle = ( 180 * (sin (0.01 * millis())) + 180);
-  difAngle = Angle - prevAngle;
 
   Serial.print(Angle);  Serial.print(" | "); 
   Serial.print(prevAngle);  Serial.print(" | ");  
   Serial.print(difAngle);  Serial.print(" | ");  
   Serial.println(steps);
   
-  if (difAngle > (steps * motorAcc)) {
+  if (difAngle > motorAcc) {
+    steps = abs(difAngle / motorAcc);
     digitalWrite(DIR_PIN, HIGH);
     for(int i = 0; i < steps; i++){
       digitalWrite(STEP_PIN, HIGH);
@@ -39,7 +59,8 @@ void loop()
     prevAngle = Angle;
   }
 
-    else if (difAngle < -(steps * motorAcc)) {
+    else if (difAngle < -motorAcc) {
+      steps = abs(difAngle / motorAcc);
       digitalWrite(DIR_PIN, LOW);
       for(int i = 0; i < steps; i++){
         digitalWrite(STEP_PIN, HIGH);
