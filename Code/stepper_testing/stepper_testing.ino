@@ -40,7 +40,7 @@ void loop()
   }
 
   // Step the motor 50 times before changing direction again.
-  for(int i = 0; i < (100 * 1.1); i++)
+  for(int i = 0; i < (90 * 1.1); i++)
   {
     digitalWrite(STEP_PINa, HIGH);
     digitalWrite(STEP_PINb, HIGH);
