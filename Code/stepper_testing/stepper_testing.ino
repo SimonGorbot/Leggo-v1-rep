@@ -1,22 +1,26 @@
-/* Simple step test for Pololu stepper motor driver carriers
-This code can be used with the A4988, DRV8825, DRV8824, and
-DRV8834 Pololu stepper motor driver carriers.  It sends a pulse
-every 500 ms to the STEP pin of a stepper motor driver that is
-connected to pin 2 and changes the direction of the stepper motor
-every 50 steps by toggling pin 3. */
-
-#define STEP_PIN 4
-#define DIR_PIN 2
+#define STEP_PINa 4
+#define DIR_PINa 2
+#define STEP_PINb 5
+#define DIR_PINb 3
 
 bool dirHigh;
 
 void setup()
-{
+{  
+  Serial.begin(57600);
+  //left motor
   dirHigh = true;
-  digitalWrite(DIR_PIN, HIGH);
-  digitalWrite(STEP_PIN, LOW);
-  pinMode(DIR_PIN, OUTPUT);
-  pinMode(STEP_PIN, OUTPUT);
+  pinMode(DIR_PINa, OUTPUT);
+  pinMode(STEP_PINa, OUTPUT);
+  digitalWrite(DIR_PINa, HIGH);
+  digitalWrite(STEP_PINa, LOW);
+
+
+  //right motor
+  pinMode(DIR_PINb, OUTPUT);
+  pinMode(STEP_PINb, OUTPUT);
+  digitalWrite(DIR_PINb, HIGH);
+  digitalWrite(STEP_PINb, LOW);
 }
 
 void loop()
@@ -25,21 +29,24 @@ void loop()
   if(dirHigh)
   {
     dirHigh = false;
-    digitalWrite(DIR_PIN, LOW);
+    digitalWrite(DIR_PINa, LOW);
+    digitalWrite(DIR_PINb, HIGH);
   }
   else
   {
     dirHigh = true;
-    digitalWrite(DIR_PIN, HIGH);
+    digitalWrite(DIR_PINa, HIGH);
+    digitalWrite(DIR_PINb, LOW  );
   }
 
   // Step the motor 50 times before changing direction again.
-  for(int i = 0; i < 100; i++)
+  for(int i = 0; i < (100 * 1.1); i++)
   {
-    // Trigger the motor to take one step.
-    digitalWrite(STEP_PIN, HIGH);
+    digitalWrite(STEP_PINa, HIGH);
+    digitalWrite(STEP_PINb, HIGH);
     delay(1);
-    digitalWrite(STEP_PIN, LOW);
+    digitalWrite(STEP_PINa, LOW);
+    digitalWrite(STEP_PINb, LOW);
     delay(1);
   }
 }
