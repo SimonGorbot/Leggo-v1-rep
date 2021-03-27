@@ -9,22 +9,28 @@ int timeCurrent;
 int timeSegment;
 int timePrevious;
 int i = 0;
-bool dirHigh;
 
+#define motorAcc 0.9
 #define slope ((angleB - angleA) / (timeB - timeA))
+#define STEP_PIN 4
+#define DIR_PIN 2
 
 void setup() {
   Serial.begin(57600);
+  pinMode(DIR_PIN, OUTPUT);
+  pinMode(STEP_PIN, OUTPUT);
+    
+  digitalWrite(DIR_PIN, HIGH);
+  digitalWrite(STEP_PIN, LOW);
 }
 
 void calculate_angle(float m,int t,int tp){
   float angle = m * (t - tp);
-  stepsDir = (angle > 0)
-  steps = angle / motorAcc
+  int stepsDir = (angle > 0);
+  int steps = angle / motorAcc;
 }
 
 void move_motor(int dir,float stp){
-  dirHigh = dir;
   digitalWrite(DIR_PIN, stepsDir);
   for(int i = 0; i < (int)abs(stp); i++){
     digitalWrite(STEP_PIN, HIGH);
@@ -42,9 +48,12 @@ void loop() {
   while ((timeB - timeCurrent) >= 0){
     timeCurrent = millis();
     calculate_angle(slope, timeCurrent, timePrevious);
+    move_motor(stepDir, steps);
     timePrevious = timeCurrent;
-    
   }
-
+  
   i++;
+  if (i == final time){
+    i = 0; 
+  }
 }
