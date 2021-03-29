@@ -21,6 +21,7 @@ void setup()
   pinMode(STEP_PINb, OUTPUT);
   digitalWrite(DIR_PINb, HIGH);
   digitalWrite(STEP_PINb, LOW);
+
 }
 
 void loop()
