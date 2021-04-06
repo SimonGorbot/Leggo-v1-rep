@@ -3,12 +3,12 @@
 #define STEP_PIN 4
 #define DIR_PIN 2
 
-int motor1_angle[num_points] = {0, 60, 30, 90, 30, 0};
-int motor1_time[num_points] = {0, 200, 400, 600, 800, 1000};
+long motor1_angle[num_points] = {0, 60, 30, 90, 30, 0};
+long motor1_time[num_points] = {0, 2000, 4000, 6000, 8000, 10000};
 
 long timeCurrent;
 long timePrevious;
-int number_cycles = 0;
+long number_cycles = 0;
 int steps;
 int stepsDir;
 int i = 0;
