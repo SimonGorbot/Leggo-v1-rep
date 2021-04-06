@@ -1,5 +1,5 @@
-#define motorAcc 0.9
-#define num_points 17
+#define motorAcc 0.9    //motor accuracy of the motor (full step = 1.8, 1/2 step = 0.9
+#define num_points 17   //number of cords for leg tip
 #define STEP_PIN1 4
 #define DIR_PIN1 2
 #define STEP_PIN2 5
@@ -11,18 +11,18 @@ long motor1_time[num_points] = {0, 200, 400, 600, 800, 1000, 1200, 1400, 1600, 1
 int motor2_angle[num_points] = {49,43,35,32,40,57,70,85,90,89,87,83,73,57,54,52,49};
 long motor2_time[num_points] = {0, 200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 2800, 3000, 3200};
 //long motor2_time[num_points] = {0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000};
-
+//the arrays calculated using a combination of trig. and ik. that can be found in the Google Sheet --> https://docs.google.com/spreadsheets/d/1tOTrF-Jd6Reod60cDrReuFHqYUPKIEgyeVbVYCuEUuk/edit?usp=sharing
 
 long timeCurrent;
 long timePrevious1;
 long timePrevious2;
-long number_cycles = 0;
+long number_cycles = 0;   //keeps track of full array loops
 int steps;
 int stepsDir;
 int i = 0;
-int wait = 20;
+int wait = 20;    //delay in milliseconds
 
-#define cycle_time (number_cycles * motor1_time[num_points - 1])
+#define cycle_time (number_cycles * motor1_time[num_points - 1])    //cumulative time taken to complete cycles
 
 float m1_calculate_angle(float m,int t,int tp){
   float angle = m * (t - tp);
