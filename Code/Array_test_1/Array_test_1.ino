@@ -1,4 +1,4 @@
-#define motorAcc 0.9    //motor accuracy of the motor (full step = 1.8, 1/2 step = 0.9
+#define motorAcc 0.9    //motor accuracy of the motor (full step = 1.8, 1/2 step = 0.9)
 #define num_points 17   //number of cords for leg tip
 #define STEP_PIN1 4
 #define DIR_PIN1 2
